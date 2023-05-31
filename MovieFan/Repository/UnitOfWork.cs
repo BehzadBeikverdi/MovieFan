@@ -10,9 +10,9 @@ namespace MovieFan.Repository
         private readonly DataBaseContext _context;
         private IMovieRepository<Movie> _movies;
 
-        public UnitOfWork ()
+        public UnitOfWork (DataBaseContext context)
         {
-            _context = new DataBaseContext();
+            _context = context;
         }
 
         public IMovieRepository<Movie> Movies => _movies ??= new MovieRepository<Movie>(_context);

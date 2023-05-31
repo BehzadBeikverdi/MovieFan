@@ -44,5 +44,24 @@ namespace MovieFan.Controllers
                 return StatusCode(500, "Internal Server Error. Please Try Again Later.");
             }
         }
+
+        [HttpGet("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetMovieById(int id)
+        {
+            try
+            {
+                var movie = await _unitOfWork.Movies.GetById(i => i.Id == id, new List<string> { "Movies" });
+                var result = _mapper.Map<MovieDTO>(movie);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Sth went wrong in the {nameof(GetMovieById)}");
+                return StatusCode(500, "Internal server error. Please try again later.");
+
+            }
+        }
     }
 }
