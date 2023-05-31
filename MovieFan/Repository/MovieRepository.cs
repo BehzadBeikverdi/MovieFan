@@ -32,5 +32,11 @@ namespace MovieFan.Repository
 
             return await query.AsNoTracking().FirstOrDefaultAsync(expression);
         }
+
+        public async Task InsertMovie(T Entity)
+        {
+            await _db.AddAsync(Entity);
+        }
+
     }
 }

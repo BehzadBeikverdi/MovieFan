@@ -11,5 +11,7 @@ namespace MovieFan.IRepository
         Task<IList<T>> GetAllMovies();
 
         Task<T> GetById(Expression<Func<T, bool>> expression = null, List<string> list = null);
+
+        Task InsertMovie(T Entity);
     }
 }

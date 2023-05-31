@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MovieFan.Data;
 using MovieFan.IRepository;
 using MovieFan.Model;
 using System;
@@ -61,6 +62,31 @@ namespace MovieFan.Controllers
                 _logger.LogError(ex, $"Sth went wrong in the {nameof(GetMovieById)}");
                 return StatusCode(500, "Internal server error. Please try again later.");
 
+            }
+        }
+
+        [HttpPost]
+        [Route("register")]
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> AddMovie([FromBody] MovieDTO movieDTO)
+        {
+            _logger.LogInformation($"Add Movie attempts for {movieDTO.MovieName}");
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var movie = _mapper.Map<Movie>(movieDTO);
+                await _unitOfWork.Movies.InsertMovie(movie);
+
+                return Accepted();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex, $"Something went wrong in the {nameof(AddMovie)}");
+                return StatusCode(500, "Internal server error. Please try again later.");
             }
         }
     }
