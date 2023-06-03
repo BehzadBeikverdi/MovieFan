@@ -66,9 +66,12 @@ namespace MovieFan.Controllers
         }
 
         [HttpPost]
-        [Route("register")]
+        [Route("addMovie")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AddMovie([FromBody] MovieDTO movieDTO)
         {
             _logger.LogInformation($"Add Movie attempts for {movieDTO.MovieName}");
@@ -80,8 +83,9 @@ namespace MovieFan.Controllers
             {
                 var movie = _mapper.Map<Movie>(movieDTO);
                 await _unitOfWork.Movies.InsertMovie(movie);
+                await _unitOfWork.Save();
 
-                return Accepted();
+                return Ok("Data Added!");
             }
             catch (Exception ex)
             {
