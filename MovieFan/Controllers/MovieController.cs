@@ -66,7 +66,6 @@ namespace MovieFan.Controllers
         }
 
         [HttpPost]
-        [Route("addMovie")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
