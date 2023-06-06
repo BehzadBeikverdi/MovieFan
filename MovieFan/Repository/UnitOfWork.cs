@@ -9,6 +9,7 @@ namespace MovieFan.Repository
     {
         private readonly DataBaseContext _context;
         private IMovieRepository<Movie> _movies;
+        private IMessageRepository<Message> _messages;
 
         public UnitOfWork (DataBaseContext context)
         {
@@ -17,8 +18,11 @@ namespace MovieFan.Repository
 
         public IMovieRepository<Movie> Movies => _movies ??= new MovieRepository<Movie>(_context);
 
+        public IMessageRepository<Message> Messages => _messages ??= new MessageRepository<Message>(_context);
+
         public void Dispose()
         {
+            _context.Dispose();
             _context.Dispose();
             GC.SuppressFinalize(this);
         }

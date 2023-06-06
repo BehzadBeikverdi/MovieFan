@@ -9,6 +9,7 @@ namespace MovieFan.Configuration
         public MapperInitializer()
         {
             CreateMap<Movie, MovieDTO>().ReverseMap();
+            CreateMap<Message, MessageDTO>().ReverseMap();
         }
     }
 }

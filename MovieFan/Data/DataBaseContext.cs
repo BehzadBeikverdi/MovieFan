@@ -12,6 +12,7 @@ namespace MovieFan.Data
         DateTime thisDate2 = new DateTime(2006, 6, 6);
         DateTime thisDate3 = new DateTime(2003, 3, 3);
         public DbSet<Movie> Movies { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

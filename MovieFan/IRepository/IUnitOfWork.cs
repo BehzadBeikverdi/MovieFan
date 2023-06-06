@@ -7,6 +7,8 @@ namespace MovieFan.IRepository
     public interface IUnitOfWork : IDisposable
     {
         IMovieRepository<Movie> Movies { get; }
+
+        IMessageRepository<Message> Messages { get; }
         Task Save();
     }
 }
