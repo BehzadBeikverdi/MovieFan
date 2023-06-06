@@ -23,7 +23,6 @@ namespace MovieFan.Repository
         public void Dispose()
         {
             _context.Dispose();
-            _context.Dispose();
             GC.SuppressFinalize(this);
         }
 
