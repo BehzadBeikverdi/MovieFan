@@ -9,6 +9,8 @@ namespace MovieFan.IRepository
         IMovieRepository<Movie> Movies { get; }
 
         IMessageRepository<Message> Messages { get; }
+
+        IUserRepository<User> Users { get; }
         Task Save();
     }
 }
