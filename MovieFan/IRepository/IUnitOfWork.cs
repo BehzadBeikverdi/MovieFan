@@ -11,6 +11,6 @@ namespace MovieFan.IRepository
         IMessageRepository<Message> Messages { get; }
 
         IUserRepository<User> Users { get; }
-        Task Save();
+        Task<int> Save();
     }
 }

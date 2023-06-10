@@ -1,4 +1,5 @@
 ﻿using MovieFan.Data;
+using MovieFan.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,6 @@ namespace MovieFan.IRepository
 {
     public interface IUserRepository<T> where T : class
     {
-        Task AddUser(User Entity, GenericResponse responseGeneric);
+        Task AddUser(User Entity);
     }
 }

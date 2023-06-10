@@ -29,9 +29,10 @@ namespace MovieFan.Repository
             GC.SuppressFinalize(this);
         }
 
-        public async Task Save()
+        public async Task<int> Save()
         {
-            await _context.SaveChangesAsync();
+            var x=await _context.SaveChangesAsync();
+            return x;
         }
     }
 }
