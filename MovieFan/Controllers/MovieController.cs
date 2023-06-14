@@ -7,6 +7,7 @@ using MovieFan.IRepository;
 using MovieFan.Model;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace MovieFan.Controllers
@@ -37,6 +38,8 @@ namespace MovieFan.Controllers
             {
                 var movies = await _unitOfWork.Movies.GetAllMovies();
                 var results = _mapper.Map<IList<MovieDTO>>(movies);
+
+
                 return Ok(results);
             }
             catch (Exception ex)
@@ -90,6 +93,43 @@ namespace MovieFan.Controllers
             {
                 _logger.LogInformation(ex, $"Something went wrong in the {nameof(AddMovie)}");
                 return StatusCode(500, "Internal server error. Please try again later.");
+            }
+        }
+
+        [HttpDelete("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<Movie>> DeleteMovieById(int id)
+        {
+            try
+            {
+                await _unitOfWork.Movies.DeleteMovieById(id);
+                var saved = await _unitOfWork.Save();
+
+                var response = new GenericResponseDTO
+                {
+                    IsSuccessful = saved > 0,
+                    StatusCode = saved > 0 ? HttpStatusCode.OK : HttpStatusCode.BadRequest,
+                    Result = saved > 0 ? $"Delete Movie Successfully." : $"Delete Movie Failed!"
+                };
+
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                var response = new GenericResponseDTO
+                {
+                    IsSuccessful = false,
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Result = "Sth went wrong!"
+                };
+
+
+                return NotFound(response);
             }
         }
     }

@@ -45,6 +45,17 @@ namespace MovieFan
                op.SerializerSettings.ReferenceLoopHandling =
                    Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
+           /* services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllHeaders",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                               .AllowAnyHeader()
+                               .AllowAnyMethod();
+                    });
+            });*/
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MovieFan", Version = "v1" });
@@ -66,6 +77,8 @@ namespace MovieFan
             app.UseRouting();
 
             app.UseAuthorization();
+
+            /*app.UseCors("AllowAllHeaders");*/
 
             app.UseEndpoints(endpoints =>
             {

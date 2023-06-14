@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MovieFan.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -8,10 +9,12 @@ namespace MovieFan.IRepository
 {
     public interface IMovieRepository<T> where T : class
     {
-        Task<IList<T>> GetAllMovies();
+        Task<IList<Movie>> GetAllMovies();
 
-        Task<T> GetById(Expression<Func<T, bool>> expression = null, List<string> list = null);
+        Task<Movie> GetById(Expression<Func<Movie, bool>> expression = null, List<string> list = null);
 
-        Task InsertMovie(T Entity);
+        Task InsertMovie(Movie Entity);
+
+        Task DeleteMovieById(int id);
     }
 }

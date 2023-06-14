@@ -14,13 +14,11 @@ namespace MovieFan.Repository
     {
         private readonly DataBaseContext _context;
         private readonly DbSet<User> _dbUser;
-        private readonly DbSet<GenericResponse> _dbGenericResponse;
 
         public UserRepository(DataBaseContext context)
         {
             _context = context;
             _dbUser = _context.Set<User>();
-            _dbGenericResponse = _context.Set<GenericResponse>();
         }
         public async Task AddUser(User Entity)
         {
@@ -28,16 +26,11 @@ namespace MovieFan.Repository
             if (SearchData == true)
             {
                 await _dbUser.AddAsync(Entity);
-                Console.WriteLine("AddAsync");
+                Console.WriteLine($"SearchData: {SearchData}");
             }
             else if (SearchData == false)
             {
-                /*_dbUser.AsNoTracking();*/
-                Console.WriteLine("AsNoTracking");
-            }
-            else
-            {
-               /* _dbUser.AnyAsync(Entity);*/
+                Console.WriteLine($"SearchData: {SearchData}");
             }
         }
     }

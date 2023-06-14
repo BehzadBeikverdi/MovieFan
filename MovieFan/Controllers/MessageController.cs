@@ -8,6 +8,7 @@ using MovieFan.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace MovieFan.Controllers
@@ -46,14 +47,30 @@ namespace MovieFan.Controllers
             {
                 var message = _mapper.Map<Message>(messageDTO);
                 await _unitOfWork.Messages.SendMessage(message);
-                await _unitOfWork.Save();
+                var saved = await _unitOfWork.Save();
 
-                return Ok("Message Added!");
+                var response = new GenericResponseDTO
+                {
+                    IsSuccessful = saved > 0,
+                    StatusCode = saved > 0 ? HttpStatusCode.OK : HttpStatusCode.BadRequest,
+                    Result = saved > 0 ? "Messagae sent Successfully." : "Messagae sent Failed!"
+                };
+
+
+                return Ok(response);
             }
             catch (Exception ex)
             {
                 _logger.LogInformation(ex, $"Something went wrong in the {nameof(AddMessage)}");
-                return StatusCode(500, "Internal server error. Please try again later.");
+                var response = new GenericResponseDTO
+                {
+                    IsSuccessful = false,
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Result = "Messagae sent Failed!"
+                };
+
+
+                return Ok(response);
             }
         }
     }

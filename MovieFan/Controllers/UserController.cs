@@ -55,7 +55,7 @@ namespace MovieFan.Controllers
                 var response = new GenericResponseDTO
                 {
                     IsSuccessful = saved > 0,
-                    StatusCode = HttpStatusCode.OK,
+                    StatusCode = saved > 0 ? HttpStatusCode.OK : HttpStatusCode.BadRequest,
                     Result = saved > 0 ? $"Add user {userDTO.EmailAddress} successfully" : $"User {userDTO.EmailAddress} already exist!"
                 };
 
