@@ -113,7 +113,7 @@ namespace MovieFan.Controllers
                 {
                     IsSuccessful = saved > 0,
                     StatusCode = saved > 0 ? HttpStatusCode.OK : HttpStatusCode.BadRequest,
-                    Result = saved > 0 ? $"Delete Movie Successfully." : $"Delete Movie Failed!"
+                    Result = saved > 0 ? "Delete Movie Successfully." : "Delete Movie Failed!"
                 };
 
 
@@ -125,7 +125,7 @@ namespace MovieFan.Controllers
                 {
                     IsSuccessful = false,
                     StatusCode = HttpStatusCode.BadRequest,
-                    Result = "Sth went wrong!"
+                    Result = "Movie with Id = " + id.ToString() + " not found to delete"
                 };
 
 

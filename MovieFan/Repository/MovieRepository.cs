@@ -3,6 +3,7 @@ using MovieFan.Data;
 using MovieFan.IRepository;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -22,14 +23,12 @@ namespace MovieFan.Repository
 
         public async Task DeleteMovieById(int id)
         {
-            /*var movieToDelte = await _db.FirstOrDefaultAsync(item => item.Id == id);*/
-            var movieToDelte = await _db.AllAsync(item => item.Id == id);
-            if (movieToDelte == true)
+            var movieToDelete = await _db.FindAsync(id);
+            if (movieToDelete != null)
             {
                 Movie entity = _db.Find(id);
                 _db.Remove(entity);
             }
-            /*      _db.Remove(movieToDelte);*/
         }
 
         public async Task<IList<Movie>> GetAllMovies()
