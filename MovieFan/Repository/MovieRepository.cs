@@ -31,9 +31,25 @@ namespace MovieFan.Repository
             }
         }
 
+        public async Task EditMovie(Movie Entity)
+        {
+            var movieToEdit = await _db.FindAsync(Entity.Id);
+            if (movieToEdit != null)
+            {
+                movieToEdit.MovieName = Entity.MovieName;
+                movieToEdit.MovieDirector = Entity.MovieDirector;
+                movieToEdit.MovieActors = Entity.MovieActors;
+                movieToEdit.MovieDescription = Entity.MovieDescription;
+                movieToEdit.MovieDuration = Entity.MovieDuration;
+                movieToEdit.MovieIMDB = Entity.MovieIMDB;
+                movieToEdit.ReleaseDate = Entity.ReleaseDate;
+            }
+        }
+
         public async Task<IList<Movie>> GetAllMovies()
         {
             IQueryable<Movie> query = _db;
+
             return await query.AsNoTracking().ToListAsync();
         }
 

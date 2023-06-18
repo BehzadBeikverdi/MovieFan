@@ -39,13 +39,28 @@ namespace MovieFan.Controllers
                 var movies = await _unitOfWork.Movies.GetAllMovies();
                 var results = _mapper.Map<IList<MovieDTO>>(movies);
 
+                var response = new GenericResponseDTO
+                {
+                    IsSuccessful = true,
+                    StatusCode = HttpStatusCode.OK,
+                    Result = "Get Movies Successfully."
+                };
+
 
                 return Ok(results);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Something Went Wrong in the {nameof(GetMovies)}");
-                return StatusCode(500, "Internal Server Error. Please Try Again Later.");
+                var response = new GenericResponseDTO
+                {
+                    IsSuccessful = false,
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Result = ex.Message
+                };
+
+
+                return BadRequest(response);
             }
         }
 
@@ -63,7 +78,15 @@ namespace MovieFan.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Sth went wrong in the {nameof(GetMovieById)}");
-                return StatusCode(500, "Internal server error. Please try again later.");
+                var response = new GenericResponseDTO
+                {
+                    IsSuccessful = false,
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Result = ex.Message
+                };
+
+
+                return BadRequest(response);
 
             }
         }
@@ -92,7 +115,15 @@ namespace MovieFan.Controllers
             catch (Exception ex)
             {
                 _logger.LogInformation(ex, $"Something went wrong in the {nameof(AddMovie)}");
-                return StatusCode(500, "Internal server error. Please try again later.");
+                var response = new GenericResponseDTO
+                {
+                    IsSuccessful = false,
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Result = ex.Message
+                };
+
+
+                return BadRequest(response);
             }
         }
 
@@ -125,11 +156,48 @@ namespace MovieFan.Controllers
                 {
                     IsSuccessful = false,
                     StatusCode = HttpStatusCode.BadRequest,
-                    Result = "Movie with Id = " + id.ToString() + " not found to delete"
+                    Result = ex.Message
                 };
 
 
-                return NotFound(response);
+                return BadRequest(response);
+            }
+        }
+
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> EditMovie([FromBody] MovieDTO movieDTO)
+        {
+            _logger.LogInformation($"Edit Movie attempts for {movieDTO.MovieName}");
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var movie = _mapper.Map<Movie>(movieDTO);
+                await _unitOfWork.Movies.EditMovie(movie);
+                var result = _mapper.Map<MovieDTO>(movie);
+                await _unitOfWork.Save();
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex, $"Something went wrong in the {nameof(EditMovie)}");
+                var response = new GenericResponseDTO
+                {
+                    IsSuccessful = false,
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Result = ex.Message
+                };
+
+
+                return BadRequest(response);
             }
         }
     }

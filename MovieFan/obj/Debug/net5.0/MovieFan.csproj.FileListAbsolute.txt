@@ -87,3 +87,5 @@ D:\Behzad\dev\.net\free\MovieFan\MovieFan\obj\Debug\net5.0\MovieFan.dll
 D:\Behzad\dev\.net\free\MovieFan\MovieFan\obj\Debug\net5.0\ref\MovieFan.dll
 D:\Behzad\dev\.net\free\MovieFan\MovieFan\obj\Debug\net5.0\MovieFan.pdb
 D:\Behzad\dev\.net\free\MovieFan\MovieFan\obj\Debug\net5.0\MovieFan.genruntimeconfig.cache
+D:\Behzad\dev\.net\free\MovieFan\MovieFan\obj\Debug\net5.0\MovieFan.csproj.AssemblyReference.cache
+D:\Behzad\dev\.net\free\MovieFan\MovieFan\obj\Debug\net5.0\MovieFan.csproj.CopyComplete
