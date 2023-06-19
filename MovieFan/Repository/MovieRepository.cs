@@ -31,18 +31,19 @@ namespace MovieFan.Repository
             }
         }
 
-        public async Task EditMovie(Movie Entity)
+        public async Task EditMovie(Movie Entity, int id)
         {
-            var movieToEdit = await _db.FindAsync(Entity.Id);
-            if (movieToEdit != null)
+            bool movieToEdit = await _db.AnyAsync(item => item.Id == id);
+            if (movieToEdit == true)
             {
-                movieToEdit.MovieName = Entity.MovieName;
-                movieToEdit.MovieDirector = Entity.MovieDirector;
-                movieToEdit.MovieActors = Entity.MovieActors;
-                movieToEdit.MovieDescription = Entity.MovieDescription;
-                movieToEdit.MovieDuration = Entity.MovieDuration;
-                movieToEdit.MovieIMDB = Entity.MovieIMDB;
-                movieToEdit.ReleaseDate = Entity.ReleaseDate;
+                var movieDetail = await _db.FindAsync(id);
+                movieDetail.MovieName = Entity.MovieName;
+                movieDetail.MovieDirector = Entity.MovieDirector;
+                movieDetail.MovieActors = Entity.MovieActors;
+                movieDetail.MovieDescription = Entity.MovieDescription;
+                movieDetail.MovieDuration = Entity.MovieDuration;
+                movieDetail.MovieIMDB = Entity.MovieIMDB;
+                movieDetail.ReleaseDate = Entity.ReleaseDate;
             }
         }
 

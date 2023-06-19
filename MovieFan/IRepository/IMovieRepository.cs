@@ -17,6 +17,6 @@ namespace MovieFan.IRepository
 
         Task DeleteMovieById(int id);
 
-        Task EditMovie(Movie Entity);
+        Task EditMovie(Movie Entity, int id);
     }
 }

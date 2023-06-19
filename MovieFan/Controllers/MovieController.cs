@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MovieFan.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class MovieController : ControllerBase
     {
@@ -164,13 +164,13 @@ namespace MovieFan.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> EditMovie([FromBody] MovieDTO movieDTO)
+        public async Task<IActionResult> EditMovie([FromBody] MovieDTO movieDTO, int id)
         {
             _logger.LogInformation($"Edit Movie attempts for {movieDTO.MovieName}");
             if (!ModelState.IsValid)
@@ -180,7 +180,7 @@ namespace MovieFan.Controllers
             try
             {
                 var movie = _mapper.Map<Movie>(movieDTO);
-                await _unitOfWork.Movies.EditMovie(movie);
+                await _unitOfWork.Movies.EditMovie(movie, id);
                 var result = _mapper.Map<MovieDTO>(movie);
                 await _unitOfWork.Save();
 
