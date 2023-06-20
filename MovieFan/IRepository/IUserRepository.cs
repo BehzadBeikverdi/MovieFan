@@ -9,6 +9,10 @@ namespace MovieFan.IRepository
 {
     public interface IUserRepository<T> where T : class
     {
-        Task AddUser(User Entity);
+        Task RegisterUser(User Entity);
+
+        Task<bool> LoginUser(User Entity);
+
+        Task DeleteUser(string EmailAddress);
     }
 }

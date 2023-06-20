@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace MovieFan.Model
         [Required]
         public string Lastname { get; set; }
         [Required]
+        [EmailAddress]
         public string EmailAddress { get; set; }
     }
 }

@@ -63,6 +63,8 @@ namespace MovieFan.Data
                     ReleaseDate = thisDate3
                 }
                 );
+
+            /*modelBuilder.Entity<User>().HasKey(u => u.EmailAddress );*/
         }
     }
 }

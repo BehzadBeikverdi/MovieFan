@@ -4,6 +4,7 @@ using MovieFan.IRepository;
 using MovieFan.Model;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -20,17 +21,58 @@ namespace MovieFan.Repository
             _context = context;
             _dbUser = _context.Set<User>();
         }
-        public async Task AddUser(User Entity)
+
+        public async Task DeleteUser(string EmailAddress)
         {
-            bool SearchData = await _dbUser.AllAsync(item => item.EmailAddress != Entity.EmailAddress);
-            if (SearchData == true)
+            var movieToDelete = await _dbUser.FindAsync(EmailAddress);
+            if (movieToDelete != null)
+            {
+                _dbUser.Remove(movieToDelete);
+            }
+        }
+
+        public async Task<bool> LoginUser(User Entity)
+        {
+     /*       DataTable dt = new DataTable("Users");
+            DataRow[] row = dt.Select(Entity.EmailAddress);*/
+            _context.Entry(Entity).GetDatabaseValues();
+            
+            var userEmail = Entity.EmailAddress;
+
+
+            var userId = _dbUser.Where(i => i.EmailAddress == Entity.EmailAddress).Select(i => i.Id).FirstOrDefault();
+            var userFirstname = _dbUser.Where(i => i.EmailAddress == Entity.EmailAddress).Select(i => i.Firstname).FirstOrDefault();
+            var userLastname = _dbUser.Where(i => i.EmailAddress == Entity.EmailAddress).Select(i => i.Lastname).FirstOrDefault();
+
+            bool userExist = false;
+
+            if (userEmail != null)
+            {
+                bool checkFirstname = userFirstname == Entity.Firstname;
+                bool checkLastname = userLastname == Entity.Lastname;
+
+                if(checkFirstname && checkLastname)
+                {
+                    userExist = true;
+                } else
+                {
+                    userExist = false;
+                }
+
+            } else
+            {
+                userExist = false;
+            }
+          
+            return userExist;
+        }
+
+        public async Task RegisterUser(User Entity)
+        {
+            bool userExist = await _dbUser.AnyAsync(item => item.EmailAddress == Entity.EmailAddress);
+            if (userExist == false)
             {
                 await _dbUser.AddAsync(Entity);
-                Console.WriteLine($"SearchData: {SearchData}");
-            }
-            else if (SearchData == false)
-            {
-                Console.WriteLine($"SearchData: {SearchData}");
             }
         }
     }
